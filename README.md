@@ -19,6 +19,10 @@ Abra <http://127.0.0.1:8000>. O servidor escuta apenas em `127.0.0.1` por padrã
 
 O arquivo `render.yaml` configura um serviço web Python no plano gratuito do Render. Conecte o repositório ao Render e crie um **Blueprint** a partir dele; após o deploy, o painel informa o endereço público. O serviço lê a porta fornecida pelo Render e escuta externamente apenas quando `FORJA_HOST=0.0.0.0` estiver configurado. O plano gratuito pode suspender o serviço quando ocioso e a busca continua dependendo do DuckDuckGo.
 
+## Publicar a página estática no GitHub Pages
+
+O workflow `.github/workflows/pages.yml` publica automaticamente a pasta `web` quando houver push para a branch `romeu728-forja-mvp` ou execução manual do workflow. Ele solicita a ativação do Pages durante a primeira publicação. A página estática funciona sem servidor: gera um conceito no navegador, abre a pesquisa externa do DuckDuckGo e inclui o protótipo jogável. O endpoint Python e a lista de trechos de resultados requerem a implantação no Render.
+
 ## IA opcional
 
 Sem configuração, Forja gera um conceito local com base nos temas. Para usar um endpoint compatível com a API de chat completions, configure as variáveis de ambiente antes de iniciar:

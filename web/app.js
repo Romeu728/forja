@@ -30,6 +30,24 @@ function showSources(sources) {
   }
 }
 
+function staticConcept(themeA, themeB) {
+  return {
+    title: `Entre ${themeA} e ${themeB}`,
+    premise: `Em um arquipélago que muda de forma a cada amanhecer, uma exploradora combina a curiosidade de ${themeA} com a inventividade de ${themeB} para reativar faróis adormecidos.`,
+    loop: "Explore uma ilha procedural, recolha madeira e minério, e construa um farol antes que a névoa avance.",
+    twist: "Cada estrutura altera o terreno ao redor e revela novas rotas, mas os recursos de cada ilha são limitados.",
+  };
+}
+
+function showStaticSearch(themeA, themeB) {
+  const query = `${themeA} ${themeB} game mechanics ideas`;
+  showSources([{
+    title: `Pesquisar “${themeA} + ${themeB}” na web`,
+    url: `https://duckduckgo.com/?${new URLSearchParams({ q: query })}`,
+    snippet: "Abra a pesquisa pública para consultar fontes, resultados e contextos originais.",
+  }]);
+}
+
 form.addEventListener("submit", async (event) => {
   event.preventDefault();
   const button = form.querySelector("button");
@@ -39,9 +57,25 @@ form.addEventListener("submit", async (event) => {
   statusMessage.textContent = "Pesquisando referências e forjando um conceito…";
   results.hidden = true;
   try {
-    const response = await fetch(`/api/idea?${params}`);
-    const data = await response.json();
-    if (!response.ok) throw new Error(data.error || "Não foi possível criar a ideia.");
+    let response;
+    try {
+      response = await fetch(`api/idea?${params}`);
+    } catch (error) {
+      if (error instanceof TypeError) response = null;
+      else throw error;
+    }
+    let data;
+    if (response?.ok) {
+      data = await response.json();
+    } else if (!response || response.status === 404) {
+      const themes = [values.get("a").trim(), values.get("b").trim()];
+      data = { themes, concept: staticConcept(...themes), ai_notice: null };
+      showStaticSearch(...themes);
+      statusMessage.textContent = "Modo público estático: conceito local e busca externa.";
+    } else {
+      const errorData = await response.json();
+      throw new Error(errorData.error || "Não foi possível criar a ideia.");
+    }
     document.querySelector("#concept-heading").textContent = data.concept.title;
     document.querySelector("#premise").textContent = data.concept.premise;
     document.querySelector("#loop").textContent = data.concept.loop;
@@ -49,9 +83,9 @@ form.addEventListener("submit", async (event) => {
     const notice = document.querySelector("#ai-notice");
     notice.hidden = !data.ai_notice;
     notice.textContent = data.ai_notice || "";
-    showSources(data.sources);
+    if (data.sources) showSources(data.sources);
     results.hidden = false;
-    statusMessage.textContent = "";
+    if (data.sources) statusMessage.textContent = "";
     window.dispatchEvent(new CustomEvent("forja:world", { detail: { themes: data.themes } }));
   } catch (error) {
     statusMessage.textContent = error.message;

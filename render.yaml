@@ -1,0 +1,12 @@
+services:
+  - type: web
+    name: forja
+    runtime: python
+    plan: free
+    buildCommand: python -m compileall -q server.py tests
+    startCommand: python server.py
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.12.8
+      - key: FORJA_HOST
+        value: 0.0.0.0

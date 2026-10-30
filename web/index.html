@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#111a16">
+  <title>Forja — laboratório de ideias</title>
+  <link rel="stylesheet" href="/styles.css">
+  <script src="/app.js" defer></script>
+  <script src="/game.js" defer></script>
+</head>
+<body>
+  <header class="topbar">
+    <a class="wordmark" href="/" aria-label="Forja, início"><span aria-hidden="true">✳</span> FORJA</a>
+    <span class="top-note">LABORATÓRIO DE IDEIAS ORIGINAIS</span>
+  </header>
+  <main>
+    <section class="intro">
+      <p class="eyebrow">PESQUISE · COMBINE · JOGUE</p>
+      <h1>De duas ideias,<br><em>nasce um mundo.</em></h1>
+      <p class="lede">Cruze temas, explore referências públicas e transforme a faísca em um conceito original — com um pequeno mundo jogável para começar.</p>
+    </section>
+
+    <section class="forge panel" aria-labelledby="forge-title">
+      <div class="section-heading">
+        <div><p class="eyebrow">01 / PONTO DE PARTIDA</p><h2 id="forge-title">O que vamos misturar?</h2></div>
+        <span class="step-tag">2 temas</span>
+      </div>
+      <form id="idea-form">
+        <label for="theme-a">Primeira ideia</label>
+        <div class="theme-fields">
+          <input id="theme-a" name="a" maxlength="60" placeholder="Ex.: exploração espacial" required>
+          <span class="plus" aria-hidden="true">+</span>
+          <input id="theme-b" name="b" maxlength="60" placeholder="Ex.: jardinagem" required>
+          <button class="primary-button" type="submit"><span>Forjar ideia</span><span aria-hidden="true">↗</span></button>
+        </div>
+        <p class="hint">Use temas, gêneros ou mecânicas. A busca consulta resultados públicos da web.</p>
+      </form>
+      <p id="status" class="status" role="status" aria-live="polite"></p>
+    </section>
+
+    <div id="results" class="results" hidden>
+      <section class="panel concept-panel" aria-labelledby="concept-heading">
+        <div class="section-heading">
+          <div><p class="eyebrow">02 / CONCEITO ORIGINAL</p><h2 id="concept-heading"></h2></div>
+          <span class="original-badge">✳ feito do zero</span>
+        </div>
+        <p id="premise" class="premise"></p>
+        <div class="concept-details">
+          <article><span class="detail-label">CICLO DE JOGO</span><p id="loop"></p></article>
+          <article><span class="detail-label">A VIRADA</span><p id="twist"></p></article>
+        </div>
+        <p id="ai-notice" class="notice" hidden></p>
+      </section>
+
+      <section class="panel sources-panel" aria-labelledby="sources-heading">
+        <div class="section-heading">
+          <div><p class="eyebrow">03 / INSPIRAÇÃO PÚBLICA</p><h2 id="sources-heading">Pistas para explorar</h2></div>
+          <span id="source-count" class="step-tag"></span>
+        </div>
+        <p class="hint">Referências para pesquisa — não são conteúdo incorporado ao protótipo.</p>
+        <div id="sources" class="source-list"></div>
+      </section>
+
+      <section class="panel game-panel" aria-labelledby="game-heading">
+        <div class="section-heading">
+          <div><p class="eyebrow">04 / PROTÓTIPO PROCEDURAL</p><h2 id="game-heading">Ilha de primeiros passos</h2></div>
+          <span class="step-tag">MUNDO # <span id="seed-label">—</span></span>
+        </div>
+        <p id="game-description" class="game-description">Explore, recolha recursos e construa um farol para guiar a próxima expedição.</p>
+        <div class="game-layout">
+          <div class="canvas-wrap">
+            <canvas id="world" width="640" height="384" tabindex="0" aria-label="Mundo do jogo. Use WASD ou setas para mover, E para coletar e B para construir."></canvas>
+            <div class="canvas-caption"><span><i class="legend-player"></i> você</span><span><i class="legend-wood"></i> madeira</span><span><i class="legend-stone"></i> minério</span></div>
+          </div>
+          <aside class="game-side">
+            <p class="eyebrow">MOCHILA</p>
+            <div class="inventory"><span>▰ Madeira</span><strong id="wood-count">0</strong></div>
+            <div class="inventory"><span>◆ Minério</span><strong id="stone-count">0</strong></div>
+            <div class="goal"><span class="detail-label">MISSÃO</span><p>Reúna 4 madeiras e 2 minérios. Pressione <kbd>B</kbd> para construir seu farol.</p></div>
+            <p id="game-message" class="game-message" aria-live="polite">A ilha espera por você.</p>
+            <div class="touch-controls" aria-label="Controles do jogo">
+              <button type="button" data-action="up" aria-label="Mover para cima">↑</button>
+              <button type="button" data-action="left" aria-label="Mover para esquerda">←</button>
+              <button type="button" data-action="down" aria-label="Mover para baixo">↓</button>
+              <button type="button" data-action="right" aria-label="Mover para direita">→</button>
+              <button type="button" data-action="collect">Coletar</button>
+              <button type="button" data-action="build">Construir</button>
+            </div>
+          </aside>
+        </div>
+      </section>
+    </div>
+    <footer><span>FORJA © 2025</span><span>Temas amplos, ideias novas. Sem assets ou conteúdo de terceiros.</span></footer>
+  </main>
+</body>
+</html>
